@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative min-h-[90vh] flex flex-col items-center justify-center text-center px-6 bg-white dark:bg-black">
+    <section id="hero" className="relative min-h-[80vh] sm:min-h-[90vh] flex flex-col items-center justify-center text-center px-4 sm:px-6 bg-white dark:bg-black">
       {/* Dot Background Pattern */}
       <div
         className={cn(
@@ -21,20 +21,20 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-20">
       <Reveal y={10}>
-        <p className="mt-24 text-xs tracking-widest uppercase text-neutral-500 dark:text-neutral-400">Telegram Ads Marketplace</p>
+        <p className="mt-24 text-[10px] sm:text-xs tracking-widest uppercase text-neutral-500 dark:text-neutral-400">Telegram Ads Marketplace</p>
       </Reveal>
       <Reveal>
-        <h1 className="mt-4 text-4xl sm:text-6xl font-bold max-w-4xl mx-auto">
+        <h1 className="mt-4 text-3xl sm:text-5xl md:text-6xl font-bold max-w-4xl mx-auto">
           The #1 Telegram Ads Marketplace in Africa
         </h1>
       </Reveal>
       <Reveal delay={0.1}>
-        <p className="mt-4 text-lg sm:text-xl max-w-2xl mx-auto text-neutral-600 dark:text-neutral-300">
+        <p className="mt-4 text-base sm:text-lg md:text-xl max-w-2xl mx-auto text-neutral-600 dark:text-neutral-300">
           Tap into Africa’s most trusted Telegram channels by category. Launch secure ad campaigns with real, targeted reach.
         </p>
       </Reveal>
       <Reveal delay={0.2}>
-        <div id="cta" className="mt-8 mx-auto flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div id="cta" className="mt-8 mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
           <a href="#advertisers" className="rounded-full bg-black text-white px-6 py-3 text-sm font-medium hover:bg-neutral-800 transition dark:bg-white dark:text-black dark:hover:bg-neutral-200">
             Launch Ads
           </a>

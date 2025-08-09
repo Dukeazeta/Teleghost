@@ -4,7 +4,7 @@ import Reveal from "@/components/Reveal";
 
 export default function FAQ() {
   return (
-    <section id="faq" className="px-6 py-16 sm:py-24" aria-labelledby="faq-title">
+    <section id="faq" className="px-6 py-16 sm:py-24 bg-white dark:bg-black" aria-labelledby="faq-title">
       <div className="max-w-4xl mx-auto">
         <Reveal>
           <h2 id="faq-title" className="text-2xl sm:text-3xl font-bold">FAQ</h2>
