@@ -80,19 +80,19 @@ export const Grid = ({
   pattern,
   size,
 }: {
-  pattern?: number[][];
+  pattern?: Array<[number, number]>;
   size?: number;
 }) => {
-  const [generatedSquares, setGeneratedSquares] = useState<number[][]>(
+  const [generatedSquares, setGeneratedSquares] = useState<Array<[number, number]>>(
     () => pattern ?? []
   );
 
   useEffect(() => {
     if (pattern) return;
-    const randomSquare = () => [
+    const randomSquare = (): [number, number] => [
       Math.floor(Math.random() * 4) + 7,
       Math.floor(Math.random() * 6) + 1,
-    ] as number[];
+    ];
     setGeneratedSquares([
       randomSquare(),
       randomSquare(),
@@ -122,7 +122,7 @@ type GridPatternProps = React.SVGProps<SVGSVGElement> & {
   height: number;
   x: number | string;
   y: number | string;
-  squares?: number[][];
+  squares?: Array<[number, number]>;
 };
 
 export function GridPattern({ width, height, x, y, squares, ...props }: GridPatternProps) {
