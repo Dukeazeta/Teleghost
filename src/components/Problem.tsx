@@ -3,7 +3,6 @@
 import React from "react";
 import { useEffect, useId, useState } from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 
 export default function Problem() {
   return (
@@ -118,7 +117,15 @@ export const Grid = ({
   );
 };
 
-export function GridPattern({ width, height, x, y, squares, ...props }: any) {
+type GridPatternProps = React.SVGProps<SVGSVGElement> & {
+  width: number;
+  height: number;
+  x: number | string;
+  y: number | string;
+  squares?: number[][];
+};
+
+export function GridPattern({ width, height, x, y, squares, ...props }: GridPatternProps) {
   const patternId = useId();
 
   return (
@@ -143,14 +150,14 @@ export function GridPattern({ width, height, x, y, squares, ...props }: any) {
       />
       {squares && (
         <svg x={x} y={y} className="overflow-visible">
-          {squares.map(([x, y]: any, index: number) => (
+          {squares.map(([squareX, squareY]: [number, number], index: number) => (
             <rect
               strokeWidth="0"
-              key={`${x}-${y}-${index}`}
+              key={`${squareX}-${squareY}-${index}`}
               width={width + 1}
               height={height + 1}
-              x={x * width}
-              y={y * height}
+              x={squareX * width}
+              y={squareY * height}
             />
           ))}
         </svg>
