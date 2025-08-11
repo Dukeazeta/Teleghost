@@ -10,7 +10,7 @@ export function Tabs({ value, onValueChange, children }: {
   onValueChange: (v: TabsValue) => void;
   children: React.ReactNode;
 }) {
-  return <div data-value={value}>{children}</div>;
+  return <div data-value={value} data-onchange={onValueChange ? 'true' : 'false'}>{children}</div>;
 }
 
 export function TabsList({ children, className }: { children: React.ReactNode; className?: string }) {
