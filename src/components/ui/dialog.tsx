@@ -75,7 +75,7 @@ const DialogTrigger = React.forwardRef<HTMLButtonElement, DialogTriggerProps>(
     if (asChild) {
       return React.cloneElement(children as React.ReactElement, {
         onClick: () => setOpen(true),
-      } as any);
+      } as React.HTMLAttributes<HTMLElement>);
     }
 
     return (
@@ -94,7 +94,7 @@ const DialogTrigger = React.forwardRef<HTMLButtonElement, DialogTriggerProps>(
 DialogTrigger.displayName = "DialogTrigger";
 
 const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
-  ({ children, className, onOpenAutoFocus, ...props }, ref) => {
+  ({ children, className, onOpenAutoFocus, ...props }) => {
     const { open, setOpen } = React.useContext(DialogContext);
     const contentRef = React.useRef<HTMLDivElement>(null);
 

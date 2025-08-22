@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import { cn } from "@/lib/utils";
 
@@ -35,12 +36,12 @@ export default function Hero() {
       </Reveal>
       <Reveal delay={0.2}>
         <div id="cta" className="mt-8 mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
-          <a href="/signup" className="rounded-full bg-black text-white px-6 py-3 text-sm font-medium hover:bg-neutral-800 transition dark:bg-white dark:text-black dark:hover:bg-neutral-200">
+          <Link href="/signup" className="rounded-full bg-black text-white px-6 py-3 text-sm font-medium hover:bg-neutral-800 transition dark:bg-white dark:text-black dark:hover:bg-neutral-200">
             Launch Ads
-          </a>
-          <a href="/signup" className="rounded-full border border-black/10 px-6 py-3 text-sm font-medium hover:bg-black/5 transition dark:border-white/20 dark:hover:bg-white/10">
+          </Link>
+          <Link href="/signup" className="rounded-full border border-black/10 px-6 py-3 text-sm font-medium hover:bg-black/5 transition dark:border-white/20 dark:hover:bg-white/10">
             Monetize
-          </a>
+          </Link>
         </div>
       </Reveal>
       </div>

@@ -3,7 +3,6 @@
 import { useUser, SignedIn, SignedOut } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { MinimalistDashboard } from "@/components/dashboard/MinimalistDashboard";
 import { MobileBottomNav } from "@/components/dashboard/MobileBottomNav";
@@ -50,7 +49,6 @@ interface Transaction {
 export default function AdvertiserDashboard() {
   const { user } = useUser();
   const router = useRouter();
-  const [userData, setUserData] = useState<UserData | null>(null);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [balance, setBalance] = useState(0);
@@ -64,7 +62,6 @@ export default function AdvertiserDashboard() {
         const data = await response.json();
         
         if (response.ok) {
-          setUserData(data.user);
           setCampaigns(data.campaigns || []);
           setTransactions(data.transactions || []);
           setBalance(data.balance || 0);
@@ -123,7 +120,7 @@ export default function AdvertiserDashboard() {
             }
           ]);
         }
-      } catch (error) {
+      } catch {
         // Network error - use demo data
         setBalance(250.00);
         setCampaigns([

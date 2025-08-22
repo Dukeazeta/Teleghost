@@ -109,7 +109,6 @@ export default function AdvertiserLoginPage() {
                   },
                   variables: {
                     fontSize: "14px",
-                    fontSizeSm: "12px",
                     borderRadius: "8px",
                   }
                 }}

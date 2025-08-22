@@ -66,7 +66,7 @@ const DropdownMenuTrigger = React.forwardRef<
       onClick: () => setOpen(!open),
       "aria-expanded": open,
       "aria-haspopup": true,
-    } as any);
+    } as React.HTMLAttributes<HTMLElement>);
   }
 
   return (
@@ -91,7 +91,7 @@ DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
 const DropdownMenuContent = React.forwardRef<
   HTMLDivElement,
   DropdownMenuContentProps
->(({ children, className, align = "end", sideOffset = 4, ...props }, ref) => {
+>(({ children, className, align = "end", sideOffset = 4, ...props }) => {
   const { open, setOpen } = React.useContext(DropdownMenuContext);
   const contentRef = React.useRef<HTMLDivElement>(null);
 

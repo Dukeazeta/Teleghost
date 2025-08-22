@@ -26,7 +26,6 @@ import {
   IconTarget,
   IconCreditCard,
   IconChartBar,
-  IconUsers,
   IconPlayerPlay,
   IconPlayerPause,
   IconEdit,
@@ -34,7 +33,6 @@ import {
   IconTrendingUp,
   IconCategory,
   IconArrowRight,
-  IconStar,
 } from "@tabler/icons-react";
 
 interface Campaign {
@@ -71,7 +69,6 @@ interface MinimalistDashboardProps {
 
 export function MinimalistDashboard({
   campaigns,
-  transactions,
   balance,
   onAddFunds,
   onCreateCampaign,

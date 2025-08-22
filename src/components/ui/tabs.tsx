@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 type TabsValue = string;
 
-export function Tabs({ value, onValueChange: _onValueChange, children }: {
+export function Tabs({ value, children }: {
   value: TabsValue;
   onValueChange: (v: TabsValue) => void;
   children: React.ReactNode;

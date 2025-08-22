@@ -1,5 +1,4 @@
 import { createSupabaseServerClient } from '@/lib/supabaseServerClient'
-import { supabase } from '@/lib/supabaseClient'
 
 // Create a new user in the database
 export const createUser = async (clerkUserId: string, email: string, userType: 'advertiser' | 'publisher') => {
