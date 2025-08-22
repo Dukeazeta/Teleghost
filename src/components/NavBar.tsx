@@ -69,7 +69,7 @@ export default function NavBar() {
           <Link href="#faq" className="text-sm hover:opacity-80 transition">FAQ</Link>
           <Link href="/login/advertisers" className="text-sm hover:opacity-80 transition">Login</Link>
           <Link
-            href="#cta"
+            href="/signup"
             className="ml-2 rounded-full bg-black text-white px-4 py-2 text-sm font-medium hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition"
           >
             Join
@@ -165,7 +165,7 @@ export default function NavBar() {
               Login
             </Link>
             <Link
-              href="#cta"
+              href="/signup"
               onClick={() => setOpen(false)}
               className="mt-2 rounded-full bg-black text-white px-4 py-3 text-sm font-medium text-center hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition"
             >

@@ -1,7 +1,7 @@
-import Signup from "@/components/Signup";
+import { redirect } from "next/navigation";
 
 export default function PublisherSignupPage() {
-  return <Signup initialProfile="publisher" />;
+  redirect("/signup");
 }
 
 
