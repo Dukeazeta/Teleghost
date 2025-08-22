@@ -24,6 +24,7 @@ interface DropdownMenuContentProps {
 interface DropdownMenuItemProps {
   children: React.ReactNode;
   onClick?: () => void;
+  onSelect?: (event: Event) => void;
   className?: string;
   disabled?: boolean;
 }
@@ -91,9 +92,22 @@ DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
 const DropdownMenuContent = React.forwardRef<
   HTMLDivElement,
   DropdownMenuContentProps
->(({ children, className, align = "end", sideOffset = 4, ...props }) => {
+>(({ children, className, align = "end", sideOffset = 4, ...props }, ref) => {
   const { open, setOpen } = React.useContext(DropdownMenuContext);
   const contentRef = React.useRef<HTMLDivElement>(null);
+
+  // Combine forwarded ref and internal ref
+  const combinedRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      contentRef.current = node;
+      if (typeof ref === "function") {
+        ref(node);
+      } else if (ref) {
+        ref.current = node;
+      }
+    },
+    [ref]
+  );
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -125,7 +139,7 @@ const DropdownMenuContent = React.forwardRef<
 
   return (
     <div
-      ref={contentRef}
+      ref={combinedRef}
       className={cn(
         "absolute z-50 min-w-[8rem] overflow-hidden rounded-md border border-neutral-200 bg-white p-1 text-neutral-950 shadow-md animate-in fade-in-80 zoom-in-95 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-50",
         align === "end" && "right-0",
@@ -145,11 +159,13 @@ DropdownMenuContent.displayName = "DropdownMenuContent";
 const DropdownMenuItem = React.forwardRef<
   HTMLDivElement,
   DropdownMenuItemProps
->(({ children, onClick, className, disabled, ...props }, ref) => {
+>(({ children, onClick, onSelect, className, disabled, ...props }, ref) => {
   const { setOpen } = React.useContext(DropdownMenuContext);
 
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!disabled) {
+      // Call onSelect if provided, passing the native event
+      onSelect?.(event.nativeEvent);
       onClick?.();
       setOpen(false);
     }
