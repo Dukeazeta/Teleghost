@@ -67,6 +67,7 @@ export default function NavBar() {
           <Link href="#advertisers" className="text-sm hover:opacity-80 transition">For Advertisers</Link>
           <Link href="#publishers" className="text-sm hover:opacity-80 transition">For Publishers</Link>
           <Link href="#faq" className="text-sm hover:opacity-80 transition">FAQ</Link>
+          <Link href="/login/advertisers" className="text-sm hover:opacity-80 transition">Login</Link>
           <Link
             href="#cta"
             className="ml-2 rounded-full bg-black text-white px-4 py-2 text-sm font-medium hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition"
@@ -155,6 +156,13 @@ export default function NavBar() {
               className="px-3 py-3 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20"
             >
               FAQ
+            </Link>
+            <Link
+              href="/login/advertisers"
+              onClick={() => setOpen(false)}
+              className="px-3 py-3 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20"
+            >
+              Login
             </Link>
             <Link
               href="#cta"
