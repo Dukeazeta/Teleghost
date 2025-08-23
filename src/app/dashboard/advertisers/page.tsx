@@ -3,9 +3,8 @@
 import { useUser, SignedIn, SignedOut } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { MinimalistDashboard } from "@/components/dashboard/MinimalistDashboard";
-import { MobileBottomNav } from "@/components/dashboard/MobileBottomNav";
 import { MobileBudgetView } from "@/components/dashboard/MobileBudgetView";
 import { MobileCategoriesView } from "@/components/dashboard/MobileCategoriesView";
 import { MobileSettingsView } from "@/components/dashboard/MobileSettingsView";
@@ -233,12 +232,15 @@ export default function AdvertiserDashboard() {
       </SignedOut>
 
       <SignedIn>
-        <div className="min-h-screen bg-white dark:bg-neutral-950">
-          {/* Dashboard Header */}
-          <DashboardHeader balance={balance} />
-
+        <DashboardLayout
+          userType="advertiser"
+          balance={balance}
+          mobileActiveTab={mobileActiveTab}
+          onMobileTabChange={setMobileActiveTab}
+          onCreateCampaign={handleCreateCampaign}
+        >
           {/* Desktop Content */}
-          <div className="hidden sm:block px-6 py-12">
+          <div className="hidden sm:block">
             <MinimalistDashboard
               campaigns={campaigns}
               transactions={transactions}
@@ -252,7 +254,7 @@ export default function AdvertiserDashboard() {
           </div>
 
           {/* Mobile Content */}
-          <div className="sm:hidden px-4 py-6">
+          <div className="sm:hidden">
             {mobileActiveTab === "overview" && (
               <MinimalistDashboard
                 campaigns={campaigns}
@@ -278,14 +280,7 @@ export default function AdvertiserDashboard() {
             
             {mobileActiveTab === "categories" && <MobileCategoriesView />}
           </div>
-
-          {/* Mobile Bottom Navigation */}
-          <MobileBottomNav
-            activeTab={mobileActiveTab}
-            onTabChange={setMobileActiveTab}
-            onCreateCampaign={handleCreateCampaign}
-          />
-        </div>
+        </DashboardLayout>
       </SignedIn>
     </div>
   );

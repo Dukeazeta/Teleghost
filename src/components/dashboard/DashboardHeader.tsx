@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useUser, useClerk } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -30,6 +30,11 @@ export function DashboardHeader({ balance }: DashboardHeaderProps) {
   const { user } = useUser();
   const { signOut } = useClerk();
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Dynamic role detection based on current URL
+  const currentUserType = pathname.includes('/dashboard/publishers') ? 'publisher' : 'advertiser';
+  const displayRole = currentUserType === 'publisher' ? 'Publisher' : 'Advertiser';
 
   const handleSignOut = async () => {
     await signOut();
@@ -38,6 +43,10 @@ export function DashboardHeader({ balance }: DashboardHeaderProps) {
 
   const handleSwitchToPublisher = () => {
     router.push("/dashboard/publishers");
+  };
+
+  const handleSwitchToAdvertiser = () => {
+    router.push("/dashboard/advertisers");
   };
 
   const getUserInitials = () => {
@@ -88,7 +97,7 @@ export function DashboardHeader({ balance }: DashboardHeaderProps) {
                 <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
                   {user?.firstName || user?.emailAddresses?.[0]?.emailAddress?.split("@")[0]}
                 </p>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400">Advertiser</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">{displayRole}</p>
               </div>
               <IconChevronDown className="h-4 w-4 text-neutral-400" />
             </DropdownMenuTrigger>
@@ -108,7 +117,7 @@ export function DashboardHeader({ balance }: DashboardHeaderProps) {
                 <IconUser className="mr-2 h-4 w-4" />
                 Profile Settings
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => router.push("/dashboard/advertisers/settings")}>
+              <DropdownMenuItem onClick={() => router.push(`/dashboard/${currentUserType}s/settings`)}>
                 <IconSettings className="mr-2 h-4 w-4" />
                 Settings
               </DropdownMenuItem>
@@ -116,10 +125,17 @@ export function DashboardHeader({ balance }: DashboardHeaderProps) {
                 <IconHelp className="mr-2 h-4 w-4" />
                 Help & Support
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleSwitchToPublisher}>
-                <IconUser className="mr-2 h-4 w-4" />
-                Switch to Publisher
-              </DropdownMenuItem>
+              {currentUserType === 'advertiser' ? (
+                <DropdownMenuItem onClick={handleSwitchToPublisher}>
+                  <IconUser className="mr-2 h-4 w-4" />
+                  Switch to Publisher
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem onClick={handleSwitchToAdvertiser}>
+                  <IconUser className="mr-2 h-4 w-4" />
+                  Switch to Advertiser
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleSignOut}>
                 <IconLogout className="mr-2 h-4 w-4" />

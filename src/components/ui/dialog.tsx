@@ -94,9 +94,22 @@ const DialogTrigger = React.forwardRef<HTMLButtonElement, DialogTriggerProps>(
 DialogTrigger.displayName = "DialogTrigger";
 
 const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
-  ({ children, className, onOpenAutoFocus, ...props }) => {
+  ({ children, className, onOpenAutoFocus, ...props }, ref) => {
     const { open, setOpen } = React.useContext(DialogContext);
     const contentRef = React.useRef<HTMLDivElement>(null);
+
+    // Combine internal ref with forwarded ref
+    const combinedRef = React.useCallback(
+      (node: HTMLDivElement | null) => {
+        contentRef.current = node;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      },
+      [ref]
+    );
 
     React.useEffect(() => {
       const handleEscape = (event: KeyboardEvent) => {
@@ -130,7 +143,7 @@ const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
         
         {/* Content */}
         <div
-          ref={contentRef}
+          ref={combinedRef}
           className={cn(
             "relative z-50 grid w-full max-w-lg gap-4 border border-neutral-200 bg-white p-6 shadow-lg duration-200 animate-in fade-in-0 zoom-in-95 sm:rounded-lg dark:border-neutral-800 dark:bg-neutral-950",
             className
