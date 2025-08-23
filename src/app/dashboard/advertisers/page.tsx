@@ -3,6 +3,7 @@
 import { useUser, SignedIn, SignedOut } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useUnifiedWallet } from "@/lib/walletService";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { MinimalistDashboard } from "@/components/dashboard/MinimalistDashboard";
 import { MobileBudgetView } from "@/components/dashboard/MobileBudgetView";
@@ -49,10 +50,20 @@ export default function AdvertiserDashboard() {
   const { user } = useUser();
   const router = useRouter();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
   const [mobileActiveTab, setMobileActiveTab] = useState("overview");
+  
+  // Use unified wallet service
+  const { 
+    balance, 
+    transactions: walletTransactions, 
+    loading: walletLoading,
+    addFunds,
+    getTransactionsByRole 
+  } = useUnifiedWallet();
+  
+  // Filter transactions for advertiser role
+  const transactions = getTransactionsByRole("advertiser");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,11 +73,10 @@ export default function AdvertiserDashboard() {
         
         if (response.ok) {
           setCampaigns(data.campaigns || []);
-          setTransactions(data.transactions || []);
-          setBalance(data.balance || 0);
+          // Note: balance and transactions now come from unified wallet service
         } else {
-          // API error - use demo data instead of logging error
-          setBalance(250.00);
+          // API error - use demo campaign data only
+          // Balance comes from unified wallet service
           setCampaigns([
             {
               id: "1",
@@ -100,28 +110,11 @@ export default function AdvertiserDashboard() {
               spent: 85.00
             }
           ]);
-          setTransactions([
-            {
-              id: "1",
-              type: "deposit",
-              amount: 500,
-              description: "Initial deposit",
-              date: "2024-01-15",
-              status: "completed"
-            },
-            {
-              id: "2",
-              type: "ad_spend",
-              amount: 127.50,
-              description: "Tech Product Launch campaign",
-              date: "2024-01-20",
-              status: "completed"
-            }
-          ]);
+          // Transactions managed by unified wallet service
         }
       } catch {
-        // Network error - use demo data
-        setBalance(250.00);
+        // Network error - use demo campaign data
+        // Balance comes from unified wallet service
         setCampaigns([
           {
             id: "1",
@@ -140,16 +133,7 @@ export default function AdvertiserDashboard() {
             spent: 127.50
           }
         ]);
-        setTransactions([
-          {
-            id: "1",
-            type: "deposit",
-            amount: 500,
-            description: "Initial deposit",
-            date: "2024-01-15",
-            status: "completed"
-          }
-        ]);
+        // Transactions managed by unified wallet service
       } finally {
         setLoading(false);
       }
@@ -161,18 +145,7 @@ export default function AdvertiserDashboard() {
   }, [user]);
 
   const handleAddFunds = async (amount: number) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setBalance(prev => prev + amount);
-    const newTransaction: Transaction = {
-      id: Date.now().toString(),
-      type: "deposit",
-      amount,
-      description: "Funds added to account",
-      date: new Date().toISOString(),
-      status: "completed"
-    };
-    setTransactions(prev => [newTransaction, ...prev]);
+    await addFunds(amount);
   };
 
   const handleCreateCampaign = () => {
@@ -199,7 +172,7 @@ export default function AdvertiserDashboard() {
     ));
   };
 
-  if (loading) {
+  if (loading || walletLoading) {
     return (
       <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
         <div className="text-center">

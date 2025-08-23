@@ -3,6 +3,7 @@
 import { useUser, SignedIn, SignedOut } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useUnifiedWallet } from "@/lib/walletService";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { PublisherDashboard } from "@/components/dashboard/PublisherDashboard";
 import { MobileEarningsView } from "@/components/dashboard/MobileEarningsView";
@@ -51,10 +52,20 @@ export default function PublisherDashboardPage() {
   const { user } = useUser();
   const router = useRouter();
   const [channels, setChannels] = useState<Channel[]>([]);
-  const [transactions, setTransactions] = useState<PublisherTransaction[]>([]);
-  const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
   const [mobileActiveTab, setMobileActiveTab] = useState("overview");
+  
+  // Use unified wallet service
+  const { 
+    balance, 
+    transactions: walletTransactions, 
+    loading: walletLoading,
+    requestWithdrawal,
+    getTransactionsByRole 
+  } = useUnifiedWallet();
+  
+  // Filter transactions for publisher role
+  const transactions = getTransactionsByRole("publisher");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,11 +75,10 @@ export default function PublisherDashboardPage() {
         
         if (response.ok) {
           setChannels(data.channels || []);
-          setTransactions(data.transactions || []);
-          setBalance(data.balance || 0);
+          // Note: balance and transactions now come from unified wallet service
         } else {
-          // API error - use demo data for publishers
-          setBalance(1250.50);
+          // API error - use demo channel data only
+          // Balance comes from unified wallet service
           setChannels([
             {
               id: "1",
@@ -122,38 +132,11 @@ export default function PublisherDashboardPage() {
               description: "Lifestyle trends and entertainment news in Kenya"
             }
           ]);
-          setTransactions([
-            {
-              id: "1",
-              type: "earning",
-              amount: 125.00,
-              description: "Payment from Tech Product Launch campaign",
-              date: "2024-01-22",
-              status: "completed",
-              channel_id: "1"
-            },
-            {
-              id: "2",
-              type: "earning",
-              amount: 72.00,
-              description: "Payment from Business Consulting campaign",
-              date: "2024-01-20",
-              status: "completed",
-              channel_id: "2"
-            },
-            {
-              id: "3",
-              type: "withdrawal",
-              amount: 500.00,
-              description: "Withdrawal to bank account",
-              date: "2024-01-18",
-              status: "completed"
-            }
-          ]);
+          // Transactions managed by unified wallet service
         }
       } catch {
-        // Network error - use demo data
-        setBalance(1250.50);
+        // Network error - use demo channel data
+        // Balance comes from unified wallet service
         setChannels([
           {
             id: "1",
@@ -173,17 +156,7 @@ export default function PublisherDashboardPage() {
             description: "Latest technology news and updates in Africa"
           }
         ]);
-        setTransactions([
-          {
-            id: "1",
-            type: "earning",
-            amount: 125.00,
-            description: "Payment from Tech Product Launch campaign",
-            date: "2024-01-22",
-            status: "completed",
-            channel_id: "1"
-          }
-        ]);
+        // Transactions managed by unified wallet service
       } finally {
         setLoading(false);
       }
@@ -198,8 +171,9 @@ export default function PublisherDashboardPage() {
     router.push("/dashboard/publishers/channels/add");
   };
 
-  const handleWithdraw = () => {
-    router.push("/dashboard/publishers/withdraw");
+  const handleWithdraw = async () => {
+    // Navigate to withdrawal page with current balance info
+    router.push(`/dashboard/publishers/withdraw?balance=${balance}`);
   };
 
   const handleViewChannel = (id: string) => {
@@ -218,7 +192,7 @@ export default function PublisherDashboardPage() {
     ));
   };
 
-  if (loading) {
+  if (loading || walletLoading) {
     return (
       <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
         <div className="text-center">

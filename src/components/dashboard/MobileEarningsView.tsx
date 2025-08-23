@@ -11,20 +11,11 @@ import {
   IconCash,
   IconGift,
 } from "@tabler/icons-react";
-
-interface PublisherTransaction {
-  id: string;
-  type: "earning" | "withdrawal" | "bonus";
-  amount: number;
-  description: string;
-  date: string;
-  status: "completed" | "pending" | "failed";
-  channel_id?: string;
-}
+import { UnifiedTransaction } from "@/lib/walletService";
 
 interface MobileEarningsViewProps {
   balance: number;
-  transactions: PublisherTransaction[];
+  transactions: UnifiedTransaction[];
   onWithdraw: () => void;
 }
 
@@ -37,11 +28,14 @@ export function MobileEarningsView({
   const getTransactionIcon = (type: string) => {
     switch (type) {
       case "earning":
+      case "bonus":
         return <IconArrowDownLeft className="h-4 w-4 text-green-600 dark:text-green-400" />;
       case "withdrawal":
         return <IconArrowUpRight className="h-4 w-4 text-red-600 dark:text-red-400" />;
-      case "bonus":
-        return <IconGift className="h-4 w-4 text-purple-600 dark:text-purple-400" />;
+      case "deposit":
+        return <IconArrowDownLeft className="h-4 w-4 text-blue-600 dark:text-blue-400" />;
+      case "ad_spend":
+        return <IconArrowUpRight className="h-4 w-4 text-orange-600 dark:text-orange-400" />;
       default:
         return <IconWallet className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />;
     }

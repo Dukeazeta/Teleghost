@@ -34,6 +34,7 @@ import {
   IconCategory,
   IconArrowRight,
 } from "@tabler/icons-react";
+import { UnifiedTransaction } from "@/lib/walletService";
 
 interface Campaign {
   id: string;
@@ -47,18 +48,9 @@ interface Campaign {
   channelCount: number;
 }
 
-interface Transaction {
-  id: string;
-  type: "deposit" | "withdrawal" | "ad_spend";
-  amount: number;
-  description: string;
-  date: string;
-  status: "completed" | "pending" | "failed";
-}
-
 interface MinimalistDashboardProps {
   campaigns: Campaign[];
-  transactions: Transaction[];
+  transactions: UnifiedTransaction[];
   balance: number;
   onAddFunds: (amount: number) => void;
   onCreateCampaign: () => void;

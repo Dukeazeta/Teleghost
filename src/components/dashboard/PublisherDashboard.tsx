@@ -1,18 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,20 +13,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   IconPlus,
-  IconBrandTelegram,
-  IconStar,
   IconTrendingUp,
-  IconEye,
-  IconEdit,
-  IconPlayerPlay,
-  IconPlayerPause,
   IconWallet,
-  IconUsers,
   IconChartBar,
   IconArrowRight,
   IconCash,
-  IconActivity,
 } from "@tabler/icons-react";
+import { ChannelsGrid } from "./ChannelsGrid";
+import { UnifiedTransaction } from "@/lib/walletService";
 
 interface Channel {
   id: string;
@@ -52,19 +37,9 @@ interface Channel {
   description: string;
 }
 
-interface PublisherTransaction {
-  id: string;
-  type: "earning" | "withdrawal" | "bonus";
-  amount: number;
-  description: string;
-  date: string;
-  status: "completed" | "pending" | "failed";
-  channel_id?: string;
-}
-
 interface PublisherDashboardProps {
   channels: Channel[];
-  transactions: PublisherTransaction[];
+  transactions: UnifiedTransaction[];
   balance: number;
   onAddChannel: () => void;
   onWithdraw: () => void;
@@ -84,37 +59,6 @@ export function PublisherDashboard({
   onToggleChannel,
 }: PublisherDashboardProps) {
   const router = useRouter();
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "active":
-        return <Badge variant="success">●  Active</Badge>;
-      case "paused":
-        return <Badge variant="warning">⏸  Paused</Badge>;
-      case "pending_review":
-        return <Badge variant="outline">⏳  Under Review</Badge>;
-      case "suspended":
-        return <Badge variant="destructive">⚠  Suspended</Badge>;
-      default:
-        return <Badge variant="outline">{status}</Badge>;
-    }
-  };
-
-  const getNicheBadge = (niche: string) => {
-    const colors: Record<string, string> = {
-      Technology: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-      "Business & Finance": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-      "Lifestyle & Entertainment": "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300",
-      Education: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300",
-      Health: "bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-300",
-    };
-    
-    return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${colors[niche] || "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300"}`}>
-        {niche}
-      </span>
-    );
-  };
 
   const activeChannels = channels.filter(c => c.status === "active").length;
   const totalSubscribers = channels.reduce((sum, channel) => sum + channel.subscribers, 0);
@@ -270,18 +214,13 @@ export function PublisherDashboard({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="space-y-4 sm:space-y-6"
+        className="space-y-6"
       >
         <div className="flex items-center justify-between">
           <h2 className="text-xl sm:text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
             Your Channels ({channels.length})
           </h2>
-          <div className="flex items-center space-x-2">
-            {channels.length > 3 && (
-              <Button variant="outline" size="sm">
-                View All
-              </Button>
-            )}
+          {channels.length > 0 && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="gap-2">
@@ -306,110 +245,17 @@ export function PublisherDashboard({
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
+          )}
         </div>
 
-        {channels.length === 0 ? (
-          <div className="text-center py-12 sm:py-16">
-            <IconBrandTelegram className="mx-auto h-12 w-12 text-neutral-300 dark:text-neutral-700 mb-4" />
-            <h3 className="text-base sm:text-lg font-medium text-neutral-900 dark:text-neutral-100 mb-2">
-              No channels added yet
-            </h3>
-            <p className="text-neutral-500 dark:text-neutral-400 mb-4 sm:mb-6 text-sm sm:text-base">
-              Add your first Telegram channel to start earning from advertisements
-            </p>
-            <Button onClick={onAddChannel}>
-              <IconPlus className="mr-2 h-4 w-4" />
-              Add Your First Channel
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-1">
-            {channels.map((channel, index) => (
-              <React.Fragment key={channel.id}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
-                  className="group flex items-center justify-between p-4 hover:bg-neutral-50 dark:hover:bg-neutral-900/50 rounded-lg transition-colors duration-200"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="font-medium text-neutral-900 dark:text-neutral-100 text-sm sm:text-base truncate">
-                        {channel.name}
-                      </h3>
-                      {getStatusBadge(channel.status)}
-                      {channel.new_orders > 0 && (
-                        <div className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 px-2 py-1 rounded-full text-xs font-medium">
-                          {channel.new_orders} new
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-neutral-500 dark:text-neutral-400 mb-2">
-                      {getNicheBadge(channel.niche)}
-                      <span>•</span>
-                      <span className="flex items-center gap-1">
-                        <IconUsers className="h-3 w-3" />
-                        {channel.subscribers.toLocaleString()}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1">
-                        <IconStar className="h-3 w-3" />
-                        {channel.rating.toFixed(1)}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1">
-                        <IconActivity className="h-3 w-3" />
-                        {channel.engagement_rate.toFixed(1)}%
-                      </span>
-                      <span>•</span>
-                      <span className="font-medium text-purple-600 dark:text-purple-400">
-                        ${channel.price_per_post.toFixed(0)}/post
-                      </span>
-                    </div>
-                    <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate">
-                      {channel.description}
-                    </p>
-                  </div>
-                  
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <IconArrowRight className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuItem onClick={() => onViewChannel(channel.id)}>
-                        <IconEye className="mr-2 h-4 w-4" />
-                        View Details
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onEditChannel(channel.id)}>
-                        <IconEdit className="mr-2 h-4 w-4" />
-                        Edit Channel
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      {channel.status === "active" ? (
-                        <DropdownMenuItem onClick={() => onToggleChannel(channel.id, "pause")}>
-                          <IconPlayerPause className="mr-2 h-4 w-4" />
-                          Pause Channel
-                        </DropdownMenuItem>
-                      ) : channel.status === "paused" ? (
-                        <DropdownMenuItem onClick={() => onToggleChannel(channel.id, "resume")}>
-                          <IconPlayerPlay className="mr-2 h-4 w-4" />
-                          Resume Channel
-                        </DropdownMenuItem>
-                      ) : null}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </motion.div>
-                
-                {index < channels.length - 1 && (
-                  <div className="border-t border-neutral-200 dark:border-neutral-800" />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        )}
+        {/* Channels Grid */}
+        <ChannelsGrid
+          channels={channels}
+          onAddChannel={onAddChannel}
+          onViewChannel={onViewChannel}
+          onEditChannel={onEditChannel}
+          onToggleChannel={onToggleChannel}
+        />
       </motion.div>
     </div>
   );

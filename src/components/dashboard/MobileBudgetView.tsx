@@ -19,19 +19,11 @@ import {
   IconArrowUpRight,
   IconArrowDownLeft,
 } from "@tabler/icons-react";
-
-interface Transaction {
-  id: string;
-  type: "deposit" | "withdrawal" | "ad_spend";
-  amount: number;
-  description: string;
-  date: string;
-  status: "completed" | "pending" | "failed";
-}
+import { UnifiedTransaction } from "@/lib/walletService";
 
 interface MobileBudgetViewProps {
   balance: number;
-  transactions: Transaction[];
+  transactions: UnifiedTransaction[];
   onAddFunds: (amount: number) => void;
 }
 
@@ -66,6 +58,10 @@ export function MobileBudgetView({
         return <IconArrowUpRight className="h-4 w-4 text-red-600 dark:text-red-400" />;
       case "ad_spend":
         return <IconCreditCard className="h-4 w-4 text-blue-600 dark:text-blue-400" />;
+      case "earning":
+        return <IconArrowDownLeft className="h-4 w-4 text-purple-600 dark:text-purple-400" />;
+      case "bonus":
+        return <IconArrowDownLeft className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />;
       default:
         return <IconCreditCard className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />;
     }
