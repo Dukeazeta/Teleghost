@@ -72,45 +72,52 @@ export default function AdvertiserLoginPage() {
                     headerSubtitle: "text-sm text-neutral-600 dark:text-neutral-400 mb-4",
                     
                     // Form elements
-                    formButtonPrimary: 
-                      "w-full bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 rounded-lg py-3 px-4 font-medium transition-colors duration-200 text-sm sm:text-base",
+                  formButtonPrimary: 
+                    "w-full bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 rounded-lg py-3 sm:py-3.5 px-4 font-medium transition-colors duration-200 text-base sm:text-base min-h-[48px] touch-manipulation",
+                  
+                  formFieldInput: 
+                    "w-full px-3 sm:px-4 py-3 sm:py-3.5 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent text-base sm:text-base min-h-[48px]",
+                  
+                  formFieldLabel: 
+                    "text-sm sm:text-base font-medium text-neutral-700 dark:text-neutral-300 mb-2 block",
                     
-                    formFieldInput: 
-                      "w-full px-3 py-2.5 sm:py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent text-sm sm:text-base",
-                    
-                    formFieldLabel: 
-                      "text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2 block",
-                    
-                    // Links and text
-                    footerActionText: "text-sm text-neutral-600 dark:text-neutral-400",
-                    footerActionLink: "text-black dark:text-white hover:text-neutral-700 dark:hover:text-neutral-300 font-medium",
-                    
-                    // Social buttons
-                    socialButtonsBlockButton: 
-                      "w-full border border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500 rounded-lg py-2.5 sm:py-3 px-4 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors duration-200 text-sm sm:text-base",
-                    
-                    // Divider
-                    dividerLine: "bg-neutral-300 dark:bg-neutral-600",
-                    dividerText: "text-sm text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-900 px-4",
-                    
-                    // Error messages
-                    formFieldErrorText: "text-red-600 dark:text-red-400 text-xs sm:text-sm mt-1",
+                  // Links and text
+                  footerActionText: "text-sm sm:text-base text-neutral-600 dark:text-neutral-400",
+                  footerActionLink: "text-black dark:text-white hover:text-neutral-700 dark:hover:text-neutral-300 font-medium underline-offset-4 hover:underline",
+                  
+                  // Social buttons
+                  socialButtonsBlockButton: 
+                    "w-full border border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500 rounded-lg py-3 sm:py-3.5 px-4 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors duration-200 text-base sm:text-base min-h-[48px] touch-manipulation",
+                  
+                  // Divider
+                  dividerLine: "bg-neutral-300 dark:bg-neutral-600",
+                  dividerText: "text-sm sm:text-base text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-900 px-4",
+                  
+                  // Error messages
+                  formFieldErrorText: "text-red-600 dark:text-red-400 text-sm sm:text-base mt-2",
                     
                     // Loading state
                     formButtonPrimary__loading: "opacity-50 cursor-not-allowed",
                     
-                    // Responsive adjustments
-                    formFieldRow: "mb-4",
-                    socialButtonsBlockButtonText: "text-sm sm:text-base",
+                  // Responsive adjustments
+                  formFieldRow: "mb-4 sm:mb-5",
+                  socialButtonsBlockButtonText: "text-base sm:text-base font-medium",
+                  
+                  // Additional mobile-friendly styles
+                  formFieldInputShowPasswordButton: "min-h-[48px] px-3",
+                  formFieldAction: "text-sm sm:text-base",
+                  identityPreviewText: "text-sm sm:text-base",
+                  identityPreviewEditButton: "text-sm sm:text-base min-h-[44px]",
                   },
                   layout: {
                     socialButtonsPlacement: "bottom",
                     showOptionalFields: false,
                   },
-                  variables: {
-                    fontSize: "14px",
-                    borderRadius: "8px",
-                  }
+                variables: {
+                  fontSize: "16px",
+                  borderRadius: "8px",
+                  spacingUnit: "1rem",
+                }
                 }}
               />
             </motion.div>
