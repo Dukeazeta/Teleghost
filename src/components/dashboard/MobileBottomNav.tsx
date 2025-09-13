@@ -88,12 +88,9 @@ export function MobileBottomNav({
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 0.3, type: "spring", stiffness: 200, damping: 15 }}
                 onClick={onCreateCampaign}
-                className="relative flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 active:scale-95"
+                className="relative flex items-center justify-center w-12 h-12 rounded-full bg-green-600 hover:bg-green-700 text-white shadow-md transition-transform duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-600/30"
               >
                 <IconPlus className="h-5 w-5 text-white" />
-                
-                {/* Glow effect */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 opacity-20 blur-md scale-110 -z-10" />
               </motion.button>
             </div>
             

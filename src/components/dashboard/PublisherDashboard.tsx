@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -68,195 +67,116 @@ export function PublisherDashboard({
     : "0";
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 sm:space-y-12 pb-24 sm:pb-8">
+    <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8 pb-24 sm:pb-8">
+      {/* Header */}
+      <header className="flex items-end justify-between">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Overview</h1>
+          <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">Key metrics and recent activity</p>
+        </div>
+        <div className="hidden sm:flex gap-2">
+          <Button size="sm" onClick={onAddChannel}>
+            <IconPlus className="h-4 w-4" />
+            New
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => router.push("/dashboard/publishers/analytics")}>Analytics</Button>
+        </div>
+      </header>
 
-      {/* Hero Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center py-6 sm:py-8"
-      >
-        <h1 className="text-2xl sm:text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-2 sm:mb-3">
-          Welcome back
-        </h1>
-        <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 mb-6 sm:mb-8">
-          Manage your channels, track earnings, and grow your audience
-        </p>
-        
-        {/* Key Stats - Inline */}
-        <div className="flex flex-wrap justify-center gap-4 sm:gap-8 text-sm">
-          <div className="text-center min-w-0">
-            <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">{activeChannels}</div>
-            <div className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm">Active channels</div>
+      {/* Metrics strip */}
+      <section aria-label="Key metrics" className="border border-neutral-200 dark:border-neutral-800 rounded-lg">
+        <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-neutral-200 dark:divide-neutral-800">
+          <div className="px-4 py-3">
+            <div className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100">{activeChannels}</div>
+            <div className="text-xs text-neutral-500 dark:text-neutral-400">Active channels</div>
           </div>
-          <div className="text-center min-w-0">
-            <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">{totalSubscribers.toLocaleString()}</div>
-            <div className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm">Total subscribers</div>
+          <div className="px-4 py-3">
+            <div className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100">{totalSubscribers.toLocaleString()}</div>
+            <div className="text-xs text-neutral-500 dark:text-neutral-400">Total subscribers</div>
           </div>
-          <div className="text-center min-w-0">
-            <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">{totalNewOrders}</div>
-            <div className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm">New orders</div>
+          <div className="px-4 py-3">
+            <div className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100">{totalNewOrders}</div>
+            <div className="text-xs text-neutral-500 dark:text-neutral-400">New orders</div>
           </div>
-          <div className="text-center min-w-0">
-            <div className="text-xl sm:text-2xl font-bold text-yellow-600 dark:text-yellow-400">⭐ {avgRating}</div>
-            <div className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm">Avg rating</div>
+          <div className="px-4 py-3">
+            <div className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100">{avgRating}</div>
+            <div className="text-xs text-neutral-500 dark:text-neutral-400">Avg rating</div>
           </div>
         </div>
-      </motion.div>
+      </section>
 
-      {/* Quick Actions - Dropdown Style */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="space-y-4"
-      >
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl sm:text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
-            Quick Actions
-          </h2>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-2">
-                <IconPlus className="h-4 w-4" />
-                New Action
-                <IconArrowRight className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuItem onClick={onAddChannel}>
-                <IconPlus className="mr-2 h-4 w-4" />
-                Add Channel
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={onWithdraw}>
-                <IconCash className="mr-2 h-4 w-4" />
-                Withdraw Funds
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => router.push("/dashboard/publishers/analytics")}>
-                <IconChartBar className="mr-2 h-4 w-4" />
-                View Analytics
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        
-        {/* Action Items with Dividers */}
-        <div className="space-y-1">
-          <div 
-            onClick={onAddChannel}
-            className="group flex items-center justify-between p-4 hover:bg-neutral-50 dark:hover:bg-neutral-900/50 rounded-lg cursor-pointer transition-colors duration-200"
-          >
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
-                <IconPlus className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              </div>
-              <div>
-                <h3 className="font-medium text-neutral-900 dark:text-neutral-100">
-                  Add New Channel
-                </h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Monetize your Telegram channel
-                </p>
-              </div>
+      {/* Content grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Main content */}
+        <section className="lg:col-span-2 space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100">Your channels ({channels.length})</h2>
+            {channels.length > 0 && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <IconChartBar className="h-4 w-4" />
+                    Manage
+                    <IconArrowRight className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem onClick={onAddChannel}>
+                    <IconPlus className="mr-2 h-4 w-4" />
+                    Add Channel
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => router.push("/dashboard/publishers/analytics")}>
+                    <IconTrendingUp className="mr-2 h-4 w-4" />
+                    View Analytics
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push("/dashboard/publishers/earnings")}>
+                    <IconWallet className="mr-2 h-4 w-4" />
+                    Earnings History
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
+
+          <ChannelsGrid
+            channels={channels}
+            onAddChannel={onAddChannel}
+            onViewChannel={onViewChannel}
+            onEditChannel={onEditChannel}
+            onToggleChannel={onToggleChannel}
+          />
+        </section>
+
+        {/* Aside */}
+        <aside className="lg:col-span-1 space-y-6">
+          {/* Wallet */}
+          <section className="border border-neutral-200 dark:border-neutral-800 rounded-lg">
+            <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
+              <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Wallet</h3>
             </div>
-            <IconArrowRight className="h-4 w-4 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors" />
-          </div>
-          
-          <div className="border-t border-neutral-200 dark:border-neutral-800" />
-          
-          <div className="flex items-center justify-between p-4 hover:bg-neutral-50 dark:hover:bg-neutral-900/50 rounded-lg transition-colors duration-200">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-green-100 dark:bg-green-900/40 rounded-lg">
-                <IconWallet className="h-5 w-5 text-green-600 dark:text-green-400" />
-              </div>
+            <div className="px-4 py-3 flex items-center justify-between">
               <div>
-                <h3 className="font-medium text-neutral-900 dark:text-neutral-100">
-                  Wallet Balance
-                </h3>
-                <p className="text-sm text-green-600 dark:text-green-400 font-medium">
-                  ${balance.toFixed(2)} available
-                </p>
+                <div className="text-sm text-neutral-500 dark:text-neutral-400">Balance</div>
+                <div className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">${balance.toFixed(2)}</div>
               </div>
+              <Button onClick={onWithdraw} size="sm" variant="outline">Withdraw</Button>
             </div>
-            <Button onClick={onWithdraw} variant="outline" size="sm">
-              Withdraw
-            </Button>
-          </div>
-          
-          <div className="border-t border-neutral-200 dark:border-neutral-800" />
-          
-          <div 
-            onClick={() => router.push("/dashboard/publishers/analytics")}
-            className="group flex items-center justify-between p-4 hover:bg-neutral-50 dark:hover:bg-neutral-900/50 rounded-lg cursor-pointer transition-colors duration-200"
-          >
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-purple-100 dark:bg-purple-900/40 rounded-lg">
-                <IconChartBar className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-              </div>
-              <div>
-                <h3 className="font-medium text-neutral-900 dark:text-neutral-100">
-                  View Analytics
-                </h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Track performance & earnings
-                </p>
-              </div>
+          </section>
+
+          {/* Shortcuts */}
+          <section className="border border-neutral-200 dark:border-neutral-800 rounded-lg">
+            <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
+              <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Shortcuts</h3>
             </div>
-            <IconArrowRight className="h-4 w-4 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors" />
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Channels Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="space-y-6"
-      >
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl sm:text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
-            Your Channels ({channels.length})
-          </h2>
-          {channels.length > 0 && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <IconChartBar className="h-4 w-4" />
-                  Manage
-                  <IconArrowRight className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem onClick={onAddChannel}>
-                  <IconPlus className="mr-2 h-4 w-4" />
-                  Add Channel
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => router.push("/dashboard/publishers/analytics")}>
-                  <IconTrendingUp className="mr-2 h-4 w-4" />
-                  View Analytics
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push("/dashboard/publishers/earnings")}>
-                  <IconWallet className="mr-2 h-4 w-4" />
-                  Earnings History
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
-        </div>
-
-        {/* Channels Grid */}
-        <ChannelsGrid
-          channels={channels}
-          onAddChannel={onAddChannel}
-          onViewChannel={onViewChannel}
-          onEditChannel={onEditChannel}
-          onToggleChannel={onToggleChannel}
-        />
-      </motion.div>
+            <div className="px-2 py-2">
+              <button onClick={onAddChannel} className="w-full text-left px-2 py-2 rounded hover:bg-neutral-50 dark:hover:bg-neutral-900/50 text-sm text-neutral-900 dark:text-neutral-100">Add channel</button>
+              <button onClick={() => router.push("/dashboard/publishers/analytics")} className="w-full text-left px-2 py-2 rounded hover:bg-neutral-50 dark:hover:bg-neutral-900/50 text-sm text-neutral-900 dark:text-neutral-100">Analytics</button>
+              <button onClick={() => router.push("/dashboard/publishers/earnings")} className="w-full text-left px-2 py-2 rounded hover:bg-neutral-50 dark:hover:bg-neutral-900/50 text-sm text-neutral-900 dark:text-neutral-100">Earnings</button>
+            </div>
+          </section>
+        </aside>
+      </div>
     </div>
   );
 }

@@ -119,7 +119,7 @@ export function DesktopSidebar({ userType }: DesktopSidebarProps) {
         transition={{ duration: 0.3, ease: "easeInOut" }}
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => setIsExpanded(false)}
-        className="fixed left-0 top-0 h-full bg-white dark:bg-neutral-950 border-r border-neutral-200 dark:border-neutral-800 z-40 flex flex-col shadow-lg"
+        className="fixed left-0 top-0 h-full bg-white dark:bg-neutral-950 border-r border-neutral-200 dark:border-neutral-800 z-40 flex flex-col shadow-none"
       >
         {/* Logo/Brand Section */}
         <div className="flex items-center justify-center h-16 border-b border-neutral-200 dark:border-neutral-800">
@@ -128,8 +128,8 @@ export function DesktopSidebar({ userType }: DesktopSidebarProps) {
             animate={{ opacity: 1 }}
             className="flex items-center gap-3"
           >
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <IconBrandTelegram className="h-5 w-5 text-white" />
+            <div className="w-8 h-8 bg-neutral-900 dark:bg-neutral-100 rounded-lg flex items-center justify-center">
+              <IconBrandTelegram className="h-5 w-5 text-white dark:text-neutral-900" />
             </div>
             <AnimatePresence>
               {isExpanded && (
@@ -199,12 +199,12 @@ export function DesktopSidebar({ userType }: DesktopSidebarProps) {
         <div className="border-t border-neutral-200 dark:border-neutral-800 p-3">
           <div
             className={`
-              flex items-center gap-3 p-3 rounded-lg transition-all duration-200
+              flex items-center gap-3 p-3 rounded-lg transition-colors duration-200
               hover:bg-neutral-50 dark:hover:bg-neutral-900/50 cursor-pointer
             `}
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-blue-600 flex items-center justify-center flex-shrink-0">
-              <span className="text-white text-sm font-medium">
+            <div className="w-8 h-8 rounded-full bg-neutral-900 dark:bg-neutral-100 flex items-center justify-center flex-shrink-0">
+              <span className="text-white dark:text-neutral-900 text-sm font-medium">
                 {user?.firstName?.charAt(0) || user?.emailAddresses[0]?.emailAddress?.charAt(0) || "U"}
               </span>
             </div>

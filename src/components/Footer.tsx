@@ -27,16 +27,16 @@ export default function Footer() {
               The Telegram ads marketplace for Africa. Launch secure, high-impact campaigns with real, targeted reach.
             </p>
             <div className="flex items-center gap-4 text-neutral-600 dark:text-neutral-300">
-              <Link href="#" aria-label="Telegram" className="hover:text-black dark:hover:text-white transition">
+              <Link href="https://t.me/Tele_Ghost" aria-label="Telegram" className="hover:text-black dark:hover:text-white transition" target="_blank" rel="noopener noreferrer">
                 <IconBrandTelegram size={20} />
               </Link>
-              <Link href="#" aria-label="X" className="hover:text-black dark:hover:text-white transition">
+              <Link href="https://x.com/Tele_Ghost?t=jtcKr-_5fMSFrnl9tvTObQ&s=09" aria-label="X" className="hover:text-black dark:hover:text-white transition" target="_blank" rel="noopener noreferrer">
                 <IconBrandX size={20} />
               </Link>
-              <Link href="#" aria-label="Instagram" className="hover:text-black dark:hover:text-white transition">
+              <Link href="https://www.instagram.com/teleghostads?igsh=b2NhbGkzMDVmcGVr" aria-label="Instagram" className="hover:text-black dark:hover:text-white transition" target="_blank" rel="noopener noreferrer">
                 <IconBrandInstagram size={20} />
               </Link>
-              <Link href="#" aria-label="YouTube" className="hover:text-black dark:hover:text-white transition">
+              <Link href="https://youtube.com/@teleghost_ads?si=zSQ93bZb1-QitJX8" aria-label="YouTube" className="hover:text-black dark:hover:text-white transition" target="_blank" rel="noopener noreferrer">
                 <IconBrandYoutube size={20} />
               </Link>
             </div>

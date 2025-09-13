@@ -69,7 +69,7 @@ export function DashboardHeader({ balance }: DashboardHeaderProps) {
             alt="TeleGhost"
             width={140}
             height={28}
-            className="h-7 w-auto mix-blend-multiply dark:mix-blend-screen"
+            className="h-7 w-auto"
             priority
           />
         </Link>
@@ -77,7 +77,7 @@ export function DashboardHeader({ balance }: DashboardHeaderProps) {
         {/* Right side - Budget and Profile */}
         <div className="flex items-center space-x-4">
           {/* Budget Display */}
-          <div className="hidden sm:flex items-center space-x-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-full px-4 py-2">
+          <div className="hidden sm:flex items-center space-x-2 bg-neutral-50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 rounded-full px-4 py-2">
             <IconCreditCard className="h-4 w-4 text-green-600 dark:text-green-400" />
             <span className="text-sm font-medium text-green-700 dark:text-green-300">
               ${balance.toFixed(2)}
